@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "Coverage & Quality Check",
+  "description": "After each spec task completes, runs the test suite with coverage and checks that all quality standards are met (80%+ coverage, no TypeScript errors)",
+  "version": "1",
+  "when": {
+    "type": "postTaskExecution"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A spec task just completed. Please do the following in order:\n\n1. Run `npx vitest run --coverage` and check that coverage thresholds pass (80%+ for statements, branches, functions, and lines). If coverage is below 80% on any metric, identify which files are under-covered and add the missing tests before marking the task done.\n\n2. Run `npx tsc --noEmit` to check for TypeScript errors. Fix any type errors found.\n\n3. Verify the following code quality rules from the steering doc are met for any files touched in this task:\n   - No `any` types used\n   - No hardcoded secrets or env-specific values\n   - All new components have typed props interfaces\n   - Tailwind color tokens used (not raw hex values in classNames)\n   - `next/image` used instead of `<img>` tags\n   - All interactive elements have accessible labels\n\nReport the coverage percentages, any issues found, and confirm all checks passed before proceeding."
+  }
+}
