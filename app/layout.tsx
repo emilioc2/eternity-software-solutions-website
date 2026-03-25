@@ -1,15 +1,15 @@
 import type { Metadata } from 'next';
-import { Inter, Playfair_Display } from 'next/font/google';
+import { Space_Grotesk, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 
-const inter = Inter({
+const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-space',
 });
 
-const playfairDisplay = Playfair_Display({
+const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
-  variable: '--font-playfair',
+  variable: '--font-mono',
 });
 
 export const metadata: Metadata = {
@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${playfairDisplay.variable} font-sans bg-background text-text-primary`}
+        className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans bg-background text-text-primary`}
       >
         {children}
       </body>
