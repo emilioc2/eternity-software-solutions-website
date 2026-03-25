@@ -20,6 +20,12 @@ export function HeroSection() {
         <div className="flex flex-col lg:flex-row items-center gap-12">
           {/* Copy */}
           <div className="flex-1 max-w-2xl">
+            {/* Availability badge */}
+            <div className="inline-flex items-center gap-2 bg-accent-subtle border border-accent/20 text-accent text-sm font-medium px-4 py-1.5 rounded-full mb-6">
+              <span className="w-2 h-2 rounded-full bg-accent animate-pulse" aria-hidden="true" />
+              Now accepting new projects for 2026
+            </div>
+
             <h1 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-extrabold text-text-primary leading-tight mb-6">
               <span className="relative inline-block text-accent opacity-75">
                 You dream it.
