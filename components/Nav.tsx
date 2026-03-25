@@ -21,16 +21,19 @@ export function Nav() {
       aria-label="Main navigation"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-32">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="#hero" aria-label="Eternity Software Services home">
+          <Link href="#hero" aria-label="Eternity Software Solutions home" className="flex items-center gap-3">
             <Image
-              src="/logo.png"
-              alt="Eternity Software Services logo"
-              width={180}
-              height={180}
+              src="/logo_fav.png"
+              alt="Eternity Software Solutions logo"
+              width={36}
+              height={36}
               priority
             />
+            <span className="font-sans font-bold text-text-primary text-sm sm:text-base leading-tight">
+              Eternity Software Solutions
+            </span>
           </Link>
 
           {/* Desktop links */}
@@ -56,7 +59,7 @@ export function Nav() {
               Start a project
             </a>
             <button
-              className="md:hidden p-2 rounded-md text-text-primary hover:bg-accent-subtle transition-colors duration-200"
+              className="md:hidden p-2 rounded-lg bg-accent text-white hover:opacity-90 transition-all duration-200 shadow-sm"
               onClick={() => setMenuOpen((prev) => !prev)}
               aria-label={menuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={menuOpen}
