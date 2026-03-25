@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -14,10 +14,21 @@ const navLinks = [
 
 export function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
     <nav
-      className="sticky top-0 z-50 bg-surface-dark border-b border-white/10 backdrop-blur-sm"
+      className={`sticky top-0 z-50 border-b transition-all duration-300 backdrop-blur-md ${
+        scrolled
+          ? 'bg-surface-dark/40 border-white/5'
+          : 'bg-surface-dark border-white/10 shadow-lg shadow-black/20'
+      }`}
       aria-label="Main navigation"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -42,9 +53,23 @@ export function Nav() {
               <li key={href}>
                 <a
                   href={href}
-                  className="text-white/70 hover:text-white transition-colors duration-200 text-sm font-medium"
+                  className="relative text-white/70 hover:text-white transition-colors duration-200 text-sm font-medium group"
                 >
                   {label}
+                  <svg
+                    viewBox="0 0 60 8"
+                    className="absolute -bottom-2 left-0 w-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-accent"
+                    preserveAspectRatio="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M0,6 Q30,1 60,6"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      fill="none"
+                      strokeLinecap="round"
+                    />
+                  </svg>
                 </a>
               </li>
             ))}
@@ -82,8 +107,7 @@ export function Nav() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div id="mobile-menu" className="md:hidden border-t border-white/10 bg-surface-dark">
-          <ul className="flex flex-col px-4 py-3 gap-1" role="list">
+        <div id="mobile-menu" className="md:hidden border-t border-white/10 bg-surface-dark">          <ul className="flex flex-col px-4 py-3 gap-1" role="list">
             {navLinks.map(({ label, href }) => (
               <li key={href}>
                 <a

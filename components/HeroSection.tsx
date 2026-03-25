@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 const TECH_STACK = [
   'React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Sanity CMS', 'Node.js',
@@ -13,27 +13,9 @@ const TRUST_BADGES = [
   'Fast delivery',
 ];
 
-const HEADLINE = 'We build it. No tech headaches, no mystery buttons.';
-
 export function HeroSection() {
-  const [displayed, setDisplayed] = useState('');
-  const [done, setDone] = useState(false);
   const blob1Ref = useRef<HTMLDivElement>(null);
   const blob2Ref = useRef<HTMLDivElement>(null);
-
-  // Typing effect
-  useEffect(() => {
-    let i = 0;
-    const interval = setInterval(() => {
-      i++;
-      setDisplayed(HEADLINE.slice(0, i));
-      if (i >= HEADLINE.length) {
-        clearInterval(interval);
-        setDone(true);
-      }
-    }, 30);
-    return () => clearInterval(interval);
-  }, []);
 
   // Parallax blobs on scroll
   useEffect(() => {
@@ -102,7 +84,7 @@ export function HeroSection() {
                   />
                 </svg>
               </span>{' '}
-              <span className={done ? '' : 'typing-cursor'}>{displayed}</span>
+              We build it. No tech headaches, no mystery buttons.
             </h1>
             <p className="text-lg sm:text-xl text-white/60 mb-10 leading-relaxed">
               We design and build modern digital products: websites, apps, dashboards, and tools. Crafted to feel effortless today and stay reliable long into the future.
