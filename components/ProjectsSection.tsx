@@ -1,4 +1,7 @@
+'use client';
+
 import Image from 'next/image';
+import { useStagger } from '@/lib/useStagger';
 import type { Project } from '@/lib/sanity/types';
 
 interface ProjectsSectionProps {
@@ -6,6 +9,7 @@ interface ProjectsSectionProps {
 }
 
 export function ProjectsSection({ projects }: ProjectsSectionProps) {
+  const gridRef = useStagger();
   return (
     <section id="projects" className="relative bg-background py-20 overflow-hidden">
       <div
@@ -19,7 +23,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
             Our Work
           </h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 stagger-children">
           {projects.map((project) => {
             const CardWrapper = project.url ? 'a' : 'div';
             const linkProps = project.url

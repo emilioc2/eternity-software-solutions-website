@@ -1,4 +1,7 @@
+'use client';
+
 import Image from 'next/image';
+import { useEffect, useRef, useState } from 'react';
 
 const TECH_STACK = [
   'React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Sanity CMS', 'Node.js',
@@ -10,7 +13,39 @@ const TRUST_BADGES = [
   'Fast delivery',
 ];
 
+const HEADLINE = 'We build it. No tech headaches, no mystery buttons.';
+
 export function HeroSection() {
+  const [displayed, setDisplayed] = useState('');
+  const [done, setDone] = useState(false);
+  const blob1Ref = useRef<HTMLDivElement>(null);
+  const blob2Ref = useRef<HTMLDivElement>(null);
+
+  // Typing effect
+  useEffect(() => {
+    let i = 0;
+    const interval = setInterval(() => {
+      i++;
+      setDisplayed(HEADLINE.slice(0, i));
+      if (i >= HEADLINE.length) {
+        clearInterval(interval);
+        setDone(true);
+      }
+    }, 30);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Parallax blobs on scroll
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (blob1Ref.current) blob1Ref.current.style.transform = `translateY(${y * 0.15}px)`;
+      if (blob2Ref.current) blob2Ref.current.style.transform = `translateY(${y * -0.1}px)`;
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
     <section
       id="hero"
@@ -26,13 +61,15 @@ export function HeroSection() {
         }}
       />
 
-      {/* Decorative blobs */}
+      {/* Parallax blobs */}
       <div
-        className="absolute top-1/4 right-0 w-96 h-96 bg-accent opacity-10 rounded-full blur-3xl pointer-events-none"
+        ref={blob1Ref}
+        className="absolute top-1/4 right-0 w-96 h-96 bg-accent opacity-10 rounded-full blur-3xl pointer-events-none will-change-transform"
         aria-hidden="true"
       />
       <div
-        className="absolute bottom-0 left-1/4 w-72 h-72 bg-accent opacity-5 rounded-full blur-3xl pointer-events-none"
+        ref={blob2Ref}
+        className="absolute bottom-0 left-1/4 w-72 h-72 bg-accent opacity-5 rounded-full blur-3xl pointer-events-none will-change-transform"
         aria-hidden="true"
       />
 
@@ -65,7 +102,7 @@ export function HeroSection() {
                   />
                 </svg>
               </span>{' '}
-              We build it. No tech headaches, no mystery buttons.
+              <span className={done ? '' : 'typing-cursor'}>{displayed}</span>
             </h1>
             <p className="text-lg sm:text-xl text-white/60 mb-10 leading-relaxed">
               We design and build modern digital products: websites, apps, dashboards, and tools. Crafted to feel effortless today and stay reliable long into the future.

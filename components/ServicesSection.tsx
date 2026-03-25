@@ -1,3 +1,6 @@
+'use client';
+
+import { useStagger } from '@/lib/useStagger';
 import type { Service } from '@/lib/sanity/types';
 
 interface ServicesSectionProps {
@@ -40,6 +43,7 @@ const DEFAULT_ICON = (
 );
 
 export function ServicesSection({ services }: ServicesSectionProps) {
+  const gridRef = useStagger();
   return (
     <section id="services" className="relative bg-background py-20 overflow-hidden">
       {/* Background blobs */}
@@ -61,7 +65,7 @@ export function ServicesSection({ services }: ServicesSectionProps) {
             Everything you need to bring your idea to life. Built to last.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 gap-6 stagger-children">
           {services.map((service) => (
             <div
               key={service._id}
