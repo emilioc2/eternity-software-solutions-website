@@ -17,7 +17,7 @@ export function Nav() {
 
   return (
     <nav
-      className="sticky top-0 z-50 bg-white/90 backdrop-blur-sm border-b border-border"
+      className="sticky top-0 z-50 bg-surface-dark border-b border-white/10 backdrop-blur-sm"
       aria-label="Main navigation"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -31,7 +31,7 @@ export function Nav() {
               height={36}
               priority
             />
-            <span className="font-sans font-bold text-text-primary text-sm sm:text-base leading-tight">
+            <span className="font-sans font-bold text-white text-sm sm:text-base leading-tight">
               Eternity Software Solutions
             </span>
           </Link>
@@ -42,7 +42,7 @@ export function Nav() {
               <li key={href}>
                 <a
                   href={href}
-                  className="text-text-primary hover:text-accent transition-colors duration-200 text-sm font-medium"
+                  className="text-white/70 hover:text-white transition-colors duration-200 text-sm font-medium"
                 >
                   {label}
                 </a>
@@ -82,13 +82,13 @@ export function Nav() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div id="mobile-menu" className="md:hidden border-t border-border bg-white/95">
+        <div id="mobile-menu" className="md:hidden border-t border-white/10 bg-surface-dark">
           <ul className="flex flex-col px-4 py-3 gap-1" role="list">
             {navLinks.map(({ label, href }) => (
               <li key={href}>
                 <a
                   href={href}
-                  className="block py-2 text-text-primary hover:text-accent transition-colors duration-200 text-sm font-medium"
+                  className="block py-2 text-white/70 hover:text-white transition-colors duration-200 text-sm font-medium"
                   onClick={() => setMenuOpen(false)}
                 >
                   {label}

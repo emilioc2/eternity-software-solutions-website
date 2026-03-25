@@ -13,9 +13,12 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
         aria-hidden="true"
       />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 animate-on-scroll">
-        <h2 className="font-sans text-3xl sm:text-4xl font-extrabold text-text-primary mb-12 text-center">
-          Our Work
-        </h2>
+        <div className="text-center mb-12">
+          <p className="text-xs font-mono text-accent/70 mb-2">// 02</p>
+          <h2 className="font-sans text-3xl sm:text-4xl font-extrabold text-text-primary">
+            Our Work
+          </h2>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {projects.map((project) => {
             const CardWrapper = project.url ? 'a' : 'div';
@@ -41,7 +44,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                 </div>
                 <div className="p-6 flex flex-col flex-1">
                   {project.tag && (
-                    <span className="inline-block bg-accent-subtle text-accent text-xs font-medium px-3 py-1 rounded-full mb-4 self-start">
+                    <span className="inline-block bg-accent-subtle text-accent text-xs font-mono px-3 py-1 rounded-full mb-4 self-start">
                       {project.tag}
                     </span>
                   )}

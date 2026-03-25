@@ -53,6 +53,7 @@ export function ServicesSection({ services }: ServicesSectionProps) {
       />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 animate-on-scroll">
         <div className="text-center mb-14">
+          <p className="text-xs font-mono text-accent/70 mb-2">// 01</p>
           <h2 className="font-sans text-3xl sm:text-4xl font-extrabold text-text-primary mb-3">
             Our Services
           </h2>
