@@ -31,7 +31,7 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center bg-surface-dark overflow-hidden"
+      className="relative min-h-screen flex items-center bg-surface-dark overflow-hidden scanlines noise"
     >
       {/* Dot grid background */}
       <div
@@ -62,7 +62,7 @@ export function HeroSection() {
             {/* Availability badge */}
             <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/30 text-accent text-xs font-mono px-4 py-1.5 rounded-full mb-6">
               <span className="w-2 h-2 rounded-full bg-accent animate-pulse" aria-hidden="true" />
-              // now_accepting_projects_2026
+              // now_accepting_projects_{new Date().getFullYear()}<span className="typing-cursor" aria-hidden="true" />
             </div>
 
             <h1 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
@@ -94,7 +94,7 @@ export function HeroSection() {
             <div className="flex flex-wrap gap-4 mb-8">
               <a
                 href="#contact"
-                className="inline-flex items-center bg-accent text-white rounded-full px-8 py-3 text-base font-medium opacity-90 hover:opacity-100 transition-all duration-200"
+                className="btn-shimmer inline-flex items-center bg-accent text-white rounded-full px-8 py-3 text-base font-medium opacity-90 hover:opacity-100 transition-all duration-200"
               >
                 Start a project
               </a>

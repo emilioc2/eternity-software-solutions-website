@@ -31,7 +31,9 @@ export default function RootLayout({
       <body
         className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans bg-background text-text-primary`}
       >
-        {children}
+        <div className="page-enter">
+          {children}
+        </div>
       </body>
     </html>
   );

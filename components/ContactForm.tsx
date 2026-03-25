@@ -96,7 +96,7 @@ export function ContactForm() {
           aria-describedby={errors.name ? 'cf-name-error' : undefined}
           value={fields.name}
           onChange={(e) => setFields((f) => ({ ...f, name: e.target.value }))}
-          className="rounded-xl border border-border bg-surface px-4 py-2.5 text-text-primary placeholder:text-text-muted placeholder:opacity-40 focus:outline-none focus:ring-2 focus:ring-accent transition-all duration-200"
+          className="rounded-xl border border-border bg-surface px-4 py-2.5 text-text-primary placeholder:text-text-muted placeholder:opacity-40 input-glow focus:outline-none focus:ring-2 focus:ring-accent transition-all duration-200"
           placeholder="Your name"
         />
         {errors.name && (
@@ -119,7 +119,7 @@ export function ContactForm() {
           aria-describedby={errors.email ? 'cf-email-error' : undefined}
           value={fields.email}
           onChange={(e) => setFields((f) => ({ ...f, email: e.target.value }))}
-          className="rounded-xl border border-border bg-surface px-4 py-2.5 text-text-primary placeholder:text-text-muted placeholder:opacity-40 focus:outline-none focus:ring-2 focus:ring-accent transition-all duration-200"
+          className="rounded-xl border border-border bg-surface px-4 py-2.5 text-text-primary placeholder:text-text-muted placeholder:opacity-40 input-glow focus:outline-none focus:ring-2 focus:ring-accent transition-all duration-200"
           placeholder="you@example.com"
         />
         {errors.email && (
@@ -139,7 +139,7 @@ export function ContactForm() {
           type="tel"
           value={fields.phone}
           onChange={(e) => setFields((f) => ({ ...f, phone: e.target.value }))}
-          className="rounded-xl border border-border bg-surface px-4 py-2.5 text-text-primary placeholder:text-text-muted placeholder:opacity-40 focus:outline-none focus:ring-2 focus:ring-accent transition-all duration-200"
+          className="rounded-xl border border-border bg-surface px-4 py-2.5 text-text-primary placeholder:text-text-muted placeholder:opacity-40 input-glow focus:outline-none focus:ring-2 focus:ring-accent transition-all duration-200"
           placeholder="+27 82 123 4567"
         />
       </div>
