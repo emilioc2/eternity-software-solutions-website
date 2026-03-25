@@ -5,9 +5,9 @@ const TECH_STACK = [
 ];
 
 const TRUST_BADGES = [
-  'TypeScript & React',
-  'CI/CD ready',
-  'Mobile-first',
+  'Unbeatable quality',
+  'Reasonable pricing',
+  'Fast delivery',
 ];
 
 export function HeroSection() {
@@ -68,7 +68,7 @@ export function HeroSection() {
               We build it. No tech headaches, no mystery buttons.
             </h1>
             <p className="text-lg sm:text-xl text-white/60 mb-10 leading-relaxed">
-              We design and build modern digital products — websites, apps, dashboards, and tools — crafted to feel effortless today and stay reliable long into the future.
+              We design and build modern digital products: websites, apps, dashboards, and tools. Crafted to feel effortless today and stay reliable long into the future.
             </p>
 
             {/* CTAs */}

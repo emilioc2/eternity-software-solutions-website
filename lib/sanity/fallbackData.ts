@@ -5,7 +5,7 @@ export const FALLBACK_SERVICES: Service[] = [
     _id: 'fallback-web-dev',
     title: 'Web Development',
     description:
-      'Clean, fast, reliable websites built with modern tools and timeless structure. Designed to perform smoothly today — and stay easy to maintain as you grow.',
+      'Clean, fast, reliable websites built with modern tools and timeless structure. Designed to perform smoothly today and stay easy to maintain as you grow.',
   },
   {
     _id: 'fallback-custom-software',
@@ -17,7 +17,7 @@ export const FALLBACK_SERVICES: Service[] = [
     _id: 'fallback-uiux',
     title: 'UI/UX Design',
     description:
-      'Simple, intuitive, and visually consistent interfaces that feel familiar from the first click — built with clarity and longevity in mind.',
+      'Simple, intuitive, and visually consistent interfaces that feel familiar from the first click. Built with clarity and longevity in mind.',
   },
   {
     _id: 'fallback-consulting',
@@ -32,14 +32,14 @@ export const FALLBACK_PROJECTS: Project[] = [
     _id: 'fallback-dashboard',
     title: 'Business Dashboard (Concept)',
     description:
-      'A clear, modern view of business performance — without the clutter or confusion.',
+      'A clear, modern view of business performance. No clutter, no confusion.',
     tag: 'Concept',
   },
   {
     _id: 'fallback-portfolio',
     title: 'Portfolio Website (Demo)',
     description:
-      'A modern, elegant showcase for creators — built to look good today and stay relevant tomorrow.',
+      'A modern, elegant showcase for creators. Built to look good today and stay relevant tomorrow.',
     tag: 'Demo',
   },
   {

@@ -58,7 +58,7 @@ export function ServicesSection({ services }: ServicesSectionProps) {
             Our Services
           </h2>
           <p className="text-text-muted text-lg max-w-xl mx-auto">
-            Everything you need to bring your idea to life — built to last.
+            Everything you need to bring your idea to life. Built to last.
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
