@@ -13,7 +13,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Eternity Software Services',
+  title: 'Eternity Software Solutions',
   description:
     'Building websites and software that grow with your business.',
   icons: {
