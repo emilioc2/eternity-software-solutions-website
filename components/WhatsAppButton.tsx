@@ -3,7 +3,8 @@ interface WhatsAppButtonProps {
 }
 
 export function WhatsAppButton({ phoneNumber }: WhatsAppButtonProps) {
-  const href = `https://wa.me/${phoneNumber}`;
+  const cleaned = phoneNumber.replace(/\D/g, '');
+  const href = `https://wa.me/${cleaned}`;
 
   return (
     <a
@@ -24,8 +25,7 @@ export function WhatsAppButton({ phoneNumber }: WhatsAppButtonProps) {
         </span>
       </span>
       <div>
-        <p className="font-semibold text-text-primary group-hover:text-accent transition-colors duration-200">Chat on WhatsApp</p>
-        <p className="text-sm text-text-muted">Quick replies, anytime</p>
+        <p className="font-semibold text-text-primary group-hover:text-accent transition-colors duration-200">Quick replies</p>
       </div>
     </a>
   );
