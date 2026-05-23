@@ -1,15 +1,25 @@
 import type { Metadata } from 'next';
-import { Space_Grotesk, JetBrains_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
 import './globals.css';
 
-const spaceGrotesk = Space_Grotesk({
-  subsets: ['latin'],
-  variable: '--font-space',
+const satoshi = localFont({
+  src: [
+    { path: '../public/fonts/Satoshi-Regular.woff', weight: '400', style: 'normal' },
+    { path: '../public/fonts/Satoshi-Medium.woff', weight: '500', style: 'normal' },
+    { path: '../public/fonts/Satoshi-Bold.woff', weight: '700', style: 'normal' },
+    { path: '../public/fonts/Satoshi-Black.woff', weight: '900', style: 'normal' },
+  ],
+  variable: '--font-sans',
+  display: 'swap',
 });
 
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
+const jetbrainsMono = localFont({
+  src: [
+    { path: '../public/fonts/JetBrainsMono-Regular.woff2', weight: '400', style: 'normal' },
+    { path: '../public/fonts/JetBrainsMono-Medium.woff2', weight: '500', style: 'normal' },
+  ],
   variable: '--font-mono',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -17,7 +27,7 @@ export const metadata: Metadata = {
   description:
     'Building websites and software that grow with your business.',
   icons: {
-    icon: '/logo_fav.png',
+    icon: '/new_logo.png',
   },
 };
 
@@ -29,7 +39,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans bg-background text-text-primary`}
+        className={`${satoshi.variable} ${jetbrainsMono.variable} font-sans antialiased bg-background text-text-primary grain`}
       >
         <div className="page-enter">
           {children}

@@ -45,45 +45,40 @@ const DEFAULT_ICON = (
 export function ServicesSection({ services }: ServicesSectionProps) {
   const gridRef = useStagger();
   return (
-    <section id="services" className="relative bg-background py-20 overflow-hidden">
-      {/* Background blobs */}
-      <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[32rem] h-[32rem] bg-accent opacity-[0.07] rounded-full blur-3xl pointer-events-none"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute bottom-0 right-0 w-64 h-64 bg-accent opacity-[0.05] rounded-full blur-3xl pointer-events-none"
-        aria-hidden="true"
-      />
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 animate-on-scroll">
-        <div className="text-center mb-14">
-          <p className="text-xs font-mono text-accent/70 mb-2">// 01</p>
-          <h2 className="font-sans text-3xl sm:text-4xl font-extrabold text-text-primary mb-3">
-            Our Services
+    <section id="services" className="relative py-32 overflow-hidden">
+      {/* Section divider */}
+      <div className="section-divider mb-32" aria-hidden="true" />
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 animate-on-scroll">
+        <div className="text-center mb-20">
+          <p className="text-xs font-mono text-accent mb-4 tracking-widest uppercase">Services</p>
+          <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-bold text-text-primary mb-4">
+            Everything you need to bring your idea to life.
           </h2>
           <p className="text-text-muted text-lg max-w-xl mx-auto">
-            Everything you need to bring your idea to life. Built to last.
+            Built to last. Designed to scale.
           </p>
         </div>
-        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 gap-6 stagger-children">
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 gap-4 stagger-children">
           {services.map((service) => (
             <div
               key={service._id}
               data-testid="service-card"
-              className="relative bg-surface rounded-2xl border border-border p-7 hover:shadow-lg hover:border-accent/30 transition-all duration-200 group overflow-hidden"
+              className="group relative bg-surface rounded-2xl border border-border p-8 card-hover hover:border-border-hover overflow-hidden"
             >
-              {/* Subtle top-left accent line on hover */}
+              {/* Gradient overlay on hover */}
               <div
-                className="absolute left-0 top-6 bottom-6 w-[3px] bg-accent rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200"
+                className="absolute inset-0 bg-gradient-to-br from-accent/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
                 aria-hidden="true"
               />
-              <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-accent-subtle text-accent shadow-sm group-hover:bg-accent group-hover:text-white transition-all duration-200">
-                {SERVICE_ICONS[service.title] ?? DEFAULT_ICON}
+              <div className="relative">
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-accent/10 text-accent mb-6 group-hover:bg-accent group-hover:text-background transition-all duration-200">
+                  {SERVICE_ICONS[service.title] ?? DEFAULT_ICON}
+                </div>
+                <h3 className="font-sans text-xl font-semibold text-text-primary mb-3">
+                  {service.title}
+                </h3>
+                <p className="text-text-muted leading-relaxed">{service.description}</p>
               </div>
-              <h3 className="font-sans text-xl font-bold text-text-primary mt-4 mb-2">
-                {service.title}
-              </h3>
-              <p className="text-text-muted leading-relaxed">{service.description}</p>
             </div>
           ))}
         </div>

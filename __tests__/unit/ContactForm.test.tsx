@@ -30,6 +30,34 @@ describe('ContactForm', () => {
     expect(phone).not.toHaveAttribute('required');
   });
 
+  it('applies input-dark class to all form inputs', () => {
+    render(<ContactForm />);
+    const nameInput = screen.getByLabelText(/name/i);
+    const emailInput = screen.getByLabelText(/email/i);
+    const phoneInput = screen.getByLabelText(/phone/i);
+    const messageInput = screen.getByLabelText(/message/i);
+    expect(nameInput.className).toContain('input-dark');
+    expect(emailInput.className).toContain('input-dark');
+    expect(phoneInput.className).toContain('input-dark');
+    expect(messageInput.className).toContain('input-dark');
+  });
+
+  it('renders labels with text-muted color', () => {
+    render(<ContactForm />);
+    const labels = document.querySelectorAll('label');
+    labels.forEach((label) => {
+      expect(label.className).toContain('text-text-muted');
+    });
+  });
+
+  it('renders submit button with accent pill styling', () => {
+    render(<ContactForm />);
+    const btn = screen.getByRole('button', { name: /send message/i });
+    expect(btn.className).toContain('bg-accent');
+    expect(btn.className).toContain('text-background');
+    expect(btn.className).toContain('rounded-full');
+  });
+
   it('shows inline errors for all missing required fields on submit', async () => {
     render(<ContactForm />);
     fireEvent.click(screen.getByRole('button', { name: /send message/i }));
@@ -37,6 +65,15 @@ describe('ContactForm', () => {
     expect(screen.getByText(/name is required/i)).toBeInTheDocument();
     expect(screen.getByText(/email is required/i)).toBeInTheDocument();
     expect(screen.getByText(/message is required/i)).toBeInTheDocument();
+  });
+
+  it('renders error messages with dark theme styling', async () => {
+    render(<ContactForm />);
+    fireEvent.click(screen.getByRole('button', { name: /send message/i }));
+    const alerts = await screen.findAllByRole('alert');
+    alerts.forEach((alert) => {
+      expect(alert.className).toContain('text-red-400');
+    });
   });
 
   it('does not call fetch when required fields are missing', () => {
@@ -54,12 +91,15 @@ describe('ContactForm', () => {
     expect(await screen.findByRole('status')).toHaveTextContent(/thanks/i);
   });
 
-  it('shows error banner on network failure', async () => {
+  it('shows error banner with dark theme styling on network failure', async () => {
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('Network error')));
     render(<ContactForm />);
     fillRequired();
     fireEvent.click(screen.getByRole('button', { name: /send message/i }));
-    expect(await screen.findByRole('alert')).toHaveTextContent(/something went wrong/i);
+    const alert = await screen.findByRole('alert');
+    expect(alert).toHaveTextContent(/something went wrong/i);
+    expect(alert.className).toContain('bg-red-500/10');
+    expect(alert.className).toContain('text-red-400');
   });
 
   it('shows error banner on non-2xx response', async () => {

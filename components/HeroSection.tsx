@@ -1,11 +1,6 @@
 'use client';
 
-import Image from 'next/image';
-import { useEffect, useRef } from 'react';
-
-const TECH_STACK = [
-  'React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Sanity CMS', 'Node.js',
-];
+import { ParticleCanvas } from './ParticleCanvas';
 
 const TRUST_BADGES = [
   'Unbeatable quality',
@@ -14,164 +9,129 @@ const TRUST_BADGES = [
 ];
 
 export function HeroSection() {
-  const blob1Ref = useRef<HTMLDivElement>(null);
-  const blob2Ref = useRef<HTMLDivElement>(null);
-
-  // Parallax blobs on scroll
-  useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY;
-      if (blob1Ref.current) blob1Ref.current.style.transform = `translateY(${y * 0.15}px)`;
-      if (blob2Ref.current) blob2Ref.current.style.transform = `translateY(${y * -0.1}px)`;
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center bg-surface-dark overflow-hidden scanlines noise"
+      className="relative min-h-screen flex flex-col justify-center overflow-hidden"
     >
-      {/* Dot grid background */}
+      {/* Floating orbs */}
       <div
-        className="absolute inset-0 pointer-events-none"
-        aria-hidden="true"
-        style={{
-          backgroundImage: 'radial-gradient(circle, rgba(192,82,42,0.15) 1px, transparent 1px)',
-          backgroundSize: '28px 28px',
-        }}
-      />
-
-      {/* Parallax blobs */}
-      <div
-        ref={blob1Ref}
-        className="absolute top-1/4 right-0 w-96 h-96 bg-accent opacity-10 rounded-full blur-3xl pointer-events-none will-change-transform"
+        className="absolute top-1/4 left-[10%] w-64 h-64 bg-accent/[0.04] rounded-full blur-3xl orb-1 pointer-events-none"
         aria-hidden="true"
       />
       <div
-        ref={blob2Ref}
-        className="absolute bottom-0 left-1/4 w-72 h-72 bg-accent opacity-5 rounded-full blur-3xl pointer-events-none will-change-transform"
+        className="absolute bottom-1/3 right-[15%] w-80 h-80 bg-accent/[0.03] rounded-full blur-3xl orb-2 pointer-events-none"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute top-[60%] left-[50%] w-48 h-48 bg-accent/[0.05] rounded-full blur-3xl orb-3 pointer-events-none"
         aria-hidden="true"
       />
 
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
-        <div className="flex flex-col lg:flex-row items-center gap-12">
-          {/* Copy */}
-          <div className="flex-1 max-w-2xl">
-            {/* Availability badge */}
-            <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/30 text-accent text-xs font-mono px-4 py-1.5 rounded-full mb-6">
-              <span className="w-2 h-2 rounded-full bg-accent animate-pulse" aria-hidden="true" />
-              // now_accepting_projects_{new Date().getFullYear()}<span className="typing-cursor" aria-hidden="true" />
-            </div>
+      {/* Particle canvas */}
+      <ParticleCanvas />
 
-            <h1 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
-              <span className="relative inline-block text-accent">
-                You dream it.
-                <svg
-                  viewBox="0 0 200 12"
-                  className="absolute -bottom-3 left-0 w-full"
-                  preserveAspectRatio="none"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M0,10 Q100,2 200,10"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    fill="none"
-                    strokeLinecap="round"
-                    opacity="0.4"
-                  />
-                </svg>
-              </span>{' '}
-              We build it. No tech headaches, no mystery buttons.
-            </h1>
-            <p className="text-lg sm:text-xl text-white/60 mb-10 leading-relaxed">
-              We design and build modern digital products: websites, apps, dashboards, and tools. Crafted to feel effortless today and stay reliable long into the future.
-            </p>
+      {/* Background video */}
+      <div className="absolute inset-0 z-0" aria-hidden="true">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-40"
+          poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Crect fill='%230f0f0f' width='1920' height='1080'/%3E%3C/svg%3E"
+        >
+          <source src="/hero-bg.mp4" type="video/mp4" />
+        </video>
+        {/* Gradient overlays to blend video into background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/60 to-background pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-transparent to-background/80 pointer-events-none" />
+      </div>
 
-            {/* CTAs */}
-            <div className="flex flex-wrap gap-4 mb-8">
-              <a
-                href="#contact"
-                className="btn-shimmer inline-flex items-center bg-accent text-white rounded-full px-8 py-3 text-base font-medium opacity-90 hover:opacity-100 transition-all duration-200"
+      {/* Main content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-32 pb-20 w-full">
+        <div className="flex flex-col items-center text-center max-w-5xl mx-auto">
+          {/* Headline */}
+          <h1 className="font-sans text-3xl sm:text-4xl lg:text-[3.5rem] font-bold text-text-primary leading-[1.05] tracking-tight mb-8">
+            <span className="text-shimmer">You dream it.</span>{' '}
+            We build it. No tech headaches, no mystery buttons.
+          </h1>
+
+          {/* Subtitle */}
+          <p className="text-lg sm:text-xl text-text-muted max-w-2xl leading-relaxed mb-12">
+            We design and build modern digital products: websites, apps, dashboards, and tools.
+            Crafted to feel effortless today and stay reliable long into the future.
+          </p>
+
+          {/* CTAs */}
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <a
+              href="#contact"
+              className="btn-pulse inline-flex items-center gap-2 bg-accent text-background rounded-full px-8 py-3.5 text-base font-medium hover:bg-accent-hover transition-colors duration-200 shadow-lg shadow-accent/20"
+            >
+              Start a project
+              <svg
+                viewBox="0 0 16 16"
+                fill="none"
+                className="w-4 h-4"
+                aria-hidden="true"
               >
-                Start a project
-              </a>
-              <a
-                href="#services"
-                className="inline-flex items-center text-white/70 font-medium px-2 py-3 hover:text-white transition-all duration-200"
-              >
-                View Services →
-              </a>
-            </div>
-
-            {/* Trust badges */}
-            <ul className="flex flex-wrap gap-x-6 gap-y-2" aria-label="Key benefits">
-              {TRUST_BADGES.map((item) => (
-                <li key={item} className="flex items-center gap-2 text-sm text-white/50 font-mono">
-                  <svg
-                    className="w-4 h-4 text-accent flex-shrink-0"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    aria-hidden="true"
-                  >
-                    <circle cx="8" cy="8" r="8" fill="rgba(192,82,42,0.15)" />
-                    <path
-                      d="M4.5 8l2.5 2.5 4.5-4.5"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                  {item}
-                </li>
-              ))}
-            </ul>
+                <path
+                  d="M3 8h10M9 4l4 4-4 4"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </a>
+            <a
+              href="#services"
+              className="inline-flex items-center text-text-muted hover:text-text-primary font-medium px-4 py-3.5 transition-colors duration-200 link-underline"
+            >
+              View Services
+            </a>
           </div>
 
-          {/* Right column: illustration + terminal */}
-          <div className="flex-1 flex flex-col gap-4 justify-center lg:justify-end">
-            <Image
-              src="/hero-illustration.png"
-              alt="Developer workspace with code editor and UI components"
-              width={560}
-              height={560}
-              priority
-              className="w-full max-w-md lg:max-w-lg rounded-2xl"
-            />
-
-            {/* Fake terminal block */}
-            <div className="w-full max-w-md lg:max-w-lg bg-black/60 border border-white/10 rounded-xl p-4 font-mono text-xs backdrop-blur-sm">
-              <div className="flex gap-1.5 mb-3" aria-hidden="true">
-                <span className="w-3 h-3 rounded-full bg-red-500/70" />
-                <span className="w-3 h-3 rounded-full bg-yellow-500/70" />
-                <span className="w-3 h-3 rounded-full bg-green-500/70" />
-              </div>
-              <p className="text-white/40">$ npx create-next-app@latest my-project</p>
-              <p className="text-green-400/80 mt-1">✔ TypeScript? <span className="text-white/60">Yes</span></p>
-              <p className="text-green-400/80">✔ Tailwind CSS? <span className="text-white/60">Yes</span></p>
-              <p className="text-green-400/80">✔ App Router? <span className="text-white/60">Yes</span></p>
-              <p className="text-accent mt-2">▶ Ready. Let&apos;s build something great.</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Tech stack strip */}
-        <div className="mt-16 pt-8 border-t border-white/10">
-          <p className="text-xs font-mono text-white/30 mb-4 text-center">// built_with</p>
-          <ul className="flex flex-wrap justify-center gap-3" aria-label="Technologies we use">
-            {TECH_STACK.map((tech) => (
-              <li
-                key={tech}
-                className="text-xs font-mono text-white/50 border border-white/10 px-3 py-1.5 rounded-md hover:border-accent/40 hover:text-white/80 transition-all duration-200"
+          {/* Trust badges */}
+          <div
+            className="flex flex-wrap items-center justify-center gap-3 mt-10"
+            aria-label="Key benefits"
+          >
+            {TRUST_BADGES.map((badge) => (
+              <span
+                key={badge}
+                className="text-xs text-text-muted/60 border border-border rounded-full px-4 py-1.5 pill-glow"
               >
-                {tech}
-              </li>
+                {badge}
+              </span>
             ))}
-          </ul>
+          </div>
         </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 scroll-indicator">
+        <a
+          href="#what-we-do"
+          className="flex flex-col items-center gap-2 text-text-muted/40 hover:text-accent/60 transition-colors duration-200"
+          aria-label="Scroll to next section"
+        >
+          <svg
+            viewBox="0 0 16 16"
+            fill="none"
+            className="w-4 h-4"
+            aria-hidden="true"
+          >
+            <path
+              d="M8 3v10M4 9l4 4 4-4"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </a>
       </div>
     </section>
   );

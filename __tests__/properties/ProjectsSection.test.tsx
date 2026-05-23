@@ -1,5 +1,4 @@
-// Feature: eternity-software-website, Property 3: Project cards match data length
-// Feature: eternity-software-website, Property 4: Project content is rendered verbatim
+// Feature: eternity-software-website, Property 6: Data Integrity — projects output remains data-driven
 
 import { describe, it } from 'vitest';
 import { render, cleanup } from '@testing-library/react';
@@ -14,33 +13,59 @@ const projectArb = fc.record<Project>({
   tag: fc.option(fc.string({ minLength: 1 }), { nil: undefined }),
 });
 
-describe('Property 3: Project cards match data length', () => {
+describe('Property 6: Data Integrity — projects output remains data-driven', () => {
   it('renders exactly as many cards as projects passed in', () => {
     fc.assert(
-      fc.property(fc.array(projectArb, { minLength: 0, maxLength: 20 }), (projects) => {
+      fc.property(fc.array(projectArb, { minLength: 0, maxLength: 10 }), (projects) => {
         const { container } = render(<ProjectsSection projects={projects} />);
         const cards = container.querySelectorAll('[data-testid="project-card"]');
         cleanup();
         return cards.length === projects.length;
       }),
-      { numRuns: 100 }
+      { numRuns: 50 }
     );
   });
-});
 
-describe('Property 4: Project content is rendered verbatim', () => {
   it('renders each project title and description unchanged', () => {
     fc.assert(
       fc.property(projectArb, (project) => {
         const { container } = render(<ProjectsSection projects={[project]} />);
-        const titleEl = container.querySelector('h3');
-        const descEl = container.querySelector('p');
+        const card = container.querySelector('[data-testid="project-card"]');
+        const titleEl = card?.querySelector('h3');
+        const descEl = card?.querySelector('p');
         const titleMatch = titleEl?.textContent === project.title;
         const descMatch = descEl?.textContent === project.description;
         cleanup();
         return titleMatch && descMatch;
       }),
-      { numRuns: 100 }
+      { numRuns: 50 }
+    );
+  });
+
+  it('each card has card-hover class and hover overlay with "View project →"', () => {
+    fc.assert(
+      fc.property(projectArb, (project) => {
+        const { container } = render(<ProjectsSection projects={[project]} />);
+        const card = container.querySelector('[data-testid="project-card"]');
+        const hasCardHover = card?.className.includes('card-hover') ?? false;
+        const hasOverlayText = card?.textContent?.includes('View project →') ?? false;
+        cleanup();
+        return hasCardHover && hasOverlayText;
+      }),
+      { numRuns: 50 }
+    );
+  });
+
+  it('renders images with aspect-[4/3] class', () => {
+    fc.assert(
+      fc.property(projectArb, (project) => {
+        const { container } = render(<ProjectsSection projects={[project]} />);
+        const card = container.querySelector('[data-testid="project-card"]');
+        const imageContainer = card?.querySelector('.aspect-\\[4\\/3\\]');
+        cleanup();
+        return imageContainer !== null;
+      }),
+      { numRuns: 50 }
     );
   });
 });

@@ -56,16 +56,16 @@ export function ContactSection({ settings }: ContactSectionProps) {
   ];
 
   return (
-    <section id="contact" className="relative bg-background py-20 overflow-hidden">
-      <div
-        className="absolute -bottom-16 -left-16 w-96 h-96 bg-accent opacity-5 rounded-full blur-3xl pointer-events-none"
-        aria-hidden="true"
-      />
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 animate-on-scroll">
+    <section id="contact" className="relative py-32 overflow-hidden">
+      <div className="section-divider mb-32" aria-hidden="true" />
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 animate-on-scroll">
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           {/* Left column — info + WhatsApp */}
           <div>
-            <h2 className="font-sans text-3xl sm:text-4xl font-extrabold text-text-primary mb-4">
+            <p className="text-xs font-mono text-accent mb-4 tracking-widest uppercase">
+              Contact
+            </p>
+            <h2 className="font-sans text-3xl sm:text-4xl font-bold text-text-primary mb-4">
               Get in Touch
             </h2>
             <p className="text-text-muted text-lg leading-relaxed mb-10">
@@ -75,7 +75,7 @@ export function ContactSection({ settings }: ContactSectionProps) {
             <div className="flex flex-col gap-5 mb-8">
               {dynamicRows.map((row) => (
                 <div key={row.label} className="flex items-center gap-4">
-                  <span className="flex-shrink-0 w-9 h-9 rounded-xl bg-accent-subtle text-accent flex items-center justify-center">
+                  <span className="flex-shrink-0 w-9 h-9 rounded-xl bg-surface border border-border text-accent flex items-center justify-center hover:border-border-hover hover:shadow-[0_0_12px_rgba(125,211,252,0.1)] transition-all duration-200">
                     {row.icon}
                   </span>
                   <div>

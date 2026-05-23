@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eternity Software — Eleveight Redesign Prototype</title>
+  <link rel="icon" href="../../../public/new_logo.png" type="image/png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Satoshi', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            background: '#0f0f0f',
+            surface: '#181818',
+            'surface-elevated': '#222222',
+            'text-primary': '#ffffff',
+            'text-muted': '#8a8a8a',
+            accent: '#7dd3fc',
+            'accent-hover': '#a5e1ff',
+            'accent-dark': '#0c4a6e',
+            border: 'rgba(255,255,255,0.06)',
+            'border-hover': 'rgba(125,211,252,0.2)',
+            whatsapp: '#25D366',
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: #0f0f0f; color: #ffffff; font-family: 'Satoshi', system-ui, sans-serif; }
+
+    .text-gradient {
+      background: linear-gradient(135deg, #7dd3fc 0%, #ffffff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(125,211,252,0.1) 50%, transparent);
+    }
+
+    .card-hover { transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), border-color 0.3s ease, box-shadow 0.3s ease; }
+    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 0 20px rgba(125,211,252,0.08), 0 0 40px rgba(125,211,252,0.04); }
+
+    .link-underline { position: relative; }
+    .link-underline::after {
+      content: ''; position: absolute; bottom: -2px; left: 0;
+      width: 0; height: 1px; background: #7dd3fc; transition: width 0.3s ease;
+    }
+    .link-underline:hover::after { width: 100%; }
+
+    .input-dark {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .input-dark:focus {
+      outline: none;
+      border-color: rgba(125,211,252,0.5);
+      box-shadow: 0 0 0 3px rgba(125,211,252,0.08);
+    }
+
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .animate-marquee { animation: marquee 30s linear infinite; }
+
+    @keyframes fade-up { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+    .animate-fade-up { animation: fade-up 0.8s ease forwards; }
+    .delay-100 { animation-delay: 0.1s; opacity: 0; }
+    .delay-200 { animation-delay: 0.2s; opacity: 0; }
+    .delay-300 { animation-delay: 0.3s; opacity: 0; }
+    .delay-400 { animation-delay: 0.4s; opacity: 0; }
+
+    .grain::after {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.3;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.02'/%3E%3C/svg%3E");
+      background-repeat: repeat; background-size: 128px 128px;
+    }
+
+    .glow-accent {
+      box-shadow: 0 0 40px rgba(125,211,252,0.08);
+    }
+    .pill-glow {
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+    }
+    .pill-glow:hover {
+      border-color: rgba(125,211,252,0.3);
+      box-shadow: 0 0 12px rgba(125,211,252,0.1);
+      color: #7dd3fc;
+    }
+
+    .delay-500 { animation-delay: 0.5s; opacity: 0; }
+    .delay-600 { animation-delay: 0.6s; opacity: 0; }
+    .delay-700 { animation-delay: 0.7s; opacity: 0; }
+
+    /* Active nav link */
+    .nav-link-active {
+      color: #7dd3fc !important;
+    }
+    .nav-link-active::after {
+      width: 100% !important;
+      background: #7dd3fc !important;
+    }
+
+    /* Parallax image */
+    .parallax-img {
+      transition: transform 0.1s linear;
+      will-change: transform;
+    }
+
+    /* Animated gradient text shimmer */
+    @keyframes gradient-shift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .text-shimmer {
+      background: linear-gradient(90deg, #7dd3fc, #ffffff, #7dd3fc, #ffffff);
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradient-shift 6s ease infinite;
+    }
+
+    /* Button pulse ring */
+    .btn-pulse {
+      position: relative;
+    }
+    .btn-pulse::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 9999px;
+      border: 1px solid rgba(125,211,252,0.4);
+      animation: pulse-ring 2.5s ease-out infinite;
+    }
+    @keyframes pulse-ring {
+      0% { transform: scale(1); opacity: 0.6; }
+      70% { transform: scale(1.15); opacity: 0; }
+      100% { transform: scale(1.15); opacity: 0; }
+    }
+
+    /* Floating orbs */
+    @keyframes float-1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -40px) scale(1.05); }
+      66% { transform: translate(-20px, 20px) scale(0.95); }
+    }
+    @keyframes float-2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(-40px, 30px) scale(0.95); }
+      66% { transform: translate(20px, -30px) scale(1.05); }
+    }
+    @keyframes float-3 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(25px, 35px) scale(1.03); }
+    }
+    .orb-1 { animation: float-1 12s ease-in-out infinite; }
+    .orb-2 { animation: float-2 15s ease-in-out infinite; }
+    .orb-3 { animation: float-3 18s ease-in-out infinite; }
+
+    /* Scroll indicator bounce */
+    @keyframes bounce-down {
+      0%, 100% { transform: translateY(0); opacity: 0.6; }
+      50% { transform: translateY(8px); opacity: 1; }
+    }
+    .scroll-indicator { animation: bounce-down 2s ease-in-out infinite; }
+
+  </style>
+</head>
+<body class="grain antialiased">
+
+<!-- NAV -->
+<nav id="nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-transparent">
+  <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+    <div class="flex items-center justify-between h-20">
+      <a href="#hero" class="flex items-center gap-3">
+        <img src="../../../public/new_logo.png" alt="Eternity Software Solutions logo" class="w-8 h-8 rounded-lg" />
+        <span class="font-sans font-medium text-text-primary text-sm tracking-tight">Eternity Software Solutions</span>
+      </a>
+      <ul class="hidden md:flex items-center gap-8">
+        <li><a href="#hero" data-section="hero" class="nav-link text-text-muted hover:text-text-primary transition-colors duration-200 text-sm link-underline">Home</a></li>
+        <li><a href="#what-we-do" data-section="what-we-do" class="nav-link text-text-muted hover:text-text-primary transition-colors duration-200 text-sm link-underline">What We Do</a></li>
+        <li><a href="#services" data-section="services" class="nav-link text-text-muted hover:text-text-primary transition-colors duration-200 text-sm link-underline">Services</a></li>
+        <li><a href="#about" data-section="about" class="nav-link text-text-muted hover:text-text-primary transition-colors duration-200 text-sm link-underline">About</a></li>
+        <li><a href="#projects" data-section="projects" class="nav-link text-text-muted hover:text-text-primary transition-colors duration-200 text-sm link-underline">Projects</a></li>
+        <li><a href="#contact" data-section="contact" class="nav-link text-text-muted hover:text-text-primary transition-colors duration-200 text-sm link-underline">Contact</a></li>
+      </ul>
+      <a href="#contact" class="hidden md:inline-flex items-center gap-2 bg-accent text-background rounded-full px-6 py-2.5 text-sm font-medium hover:bg-accent-hover transition-colors duration-200">
+        Let's talk
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero" class="relative min-h-screen flex flex-col justify-center overflow-hidden">
+  <!-- Floating orbs -->
+  <div class="absolute top-1/4 left-[10%] w-64 h-64 bg-accent/[0.04] rounded-full blur-3xl orb-1 pointer-events-none"></div>
+  <div class="absolute bottom-1/3 right-[15%] w-80 h-80 bg-accent/[0.03] rounded-full blur-3xl orb-2 pointer-events-none"></div>
+  <div class="absolute top-[60%] left-[50%] w-48 h-48 bg-accent/[0.05] rounded-full blur-3xl orb-3 pointer-events-none"></div>
+
+  <!-- Particle canvas -->
+  <canvas id="particles" class="absolute inset-0 w-full h-full pointer-events-none z-[1]"></canvas>
+
+  <!-- Background video -->
+  <div class="absolute inset-0 z-0">
+    <video
+      autoplay
+      muted
+      loop
+      playsinline
+      class="absolute inset-0 w-full h-full object-cover opacity-40"
+      poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Crect fill='%230f0f0f' width='1920' height='1080'/%3E%3C/svg%3E"
+    >
+      <source src="../../../public/hero-bg.mp4" type="video/mp4" />
+    </video>
+    <!-- Gradient overlays to blend video into background -->
+    <div class="absolute inset-0 bg-gradient-to-b from-background via-background/60 to-background pointer-events-none"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-background/80 via-transparent to-background/80 pointer-events-none"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-32 pb-20 w-full">
+    <div class="flex flex-col items-center text-center max-w-5xl mx-auto">
+      <!-- Headline -->
+      <h1 class="font-sans text-5xl sm:text-6xl lg:text-[5.5rem] font-bold text-text-primary leading-[1.05] tracking-tight mb-8 animate-fade-up delay-100">
+        <span class="text-shimmer">You dream it.</span> We build it. No tech headaches, no mystery buttons.
+      </h1>
+      <!-- Subtitle -->
+      <p class="text-lg sm:text-xl text-text-muted max-w-2xl leading-relaxed mb-12 animate-fade-up delay-200">
+        We design and build modern digital products: websites, apps, dashboards, and tools. Crafted to feel effortless today and stay reliable long into the future.
+      </p>
+      <!-- CTAs -->
+      <div class="flex flex-wrap items-center justify-center gap-4 animate-fade-up delay-300">
+        <a href="#contact" class="btn-pulse inline-flex items-center gap-2 bg-accent text-background rounded-full px-8 py-3.5 text-base font-medium hover:bg-accent-hover transition-colors duration-200 shadow-lg shadow-accent/20">
+          Start a project
+          <svg viewBox="0 0 16 16" fill="none" class="w-4 h-4"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#services" class="inline-flex items-center text-text-muted hover:text-text-primary font-medium px-4 py-3.5 transition-colors duration-200 link-underline">
+          View Services
+        </a>
+      </div>
+      <!-- Trust badges -->
+      <div class="flex flex-wrap items-center justify-center gap-3 mt-10">
+        <span class="text-xs text-text-muted/60 border border-border rounded-full px-4 py-1.5 pill-glow animate-fade-up delay-500">Unbeatable quality</span>
+        <span class="text-xs text-text-muted/60 border border-border rounded-full px-4 py-1.5 pill-glow animate-fade-up delay-600">Reasonable pricing</span>
+        <span class="text-xs text-text-muted/60 border border-border rounded-full px-4 py-1.5 pill-glow animate-fade-up delay-700">Fast delivery</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 scroll-indicator">
+    <a href="#what-we-do" class="flex flex-col items-center gap-2 text-text-muted/40 hover:text-accent/60 transition-colors duration-200">
+      <svg viewBox="0 0 16 16" fill="none" class="w-4 h-4"><path d="M8 3v10M4 9l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- WHAT WE DO -->
+<section id="what-we-do" class="relative py-32 overflow-hidden">
+  <div class="section-divider mb-32"></div>
+  <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+    <div class="grid lg:grid-cols-12 gap-16">
+      <div class="lg:col-span-4">
+        <p class="text-xs font-mono text-accent mb-4 tracking-widest uppercase">What we do</p>
+        <h2 class="font-sans text-3xl sm:text-4xl font-bold text-text-primary leading-tight">
+          A small team with a wide range of capabilities, all focused on building things that last.
+        </h2>
+      </div>
+      <div class="lg:col-span-8">
+        <div class="flex flex-col">
+          <div class="group flex items-start gap-6 py-8 border-b border-border hover:pl-2 transition-all duration-300">
+            <span class="text-xs font-mono text-accent/40 mt-1 flex-shrink-0 w-8">01</span>
+            <div>
+              <h3 class="font-sans text-lg font-semibold text-text-primary mb-2 group-hover:text-accent transition-colors duration-200">Web Development</h3>
+              <p class="text-text-muted leading-relaxed">We build websites that are fast, clean, and easy to manage. Designed to grow with your business.</p>
+            </div>
+          </div>
+          <div class="group flex items-start gap-6 py-8 border-b border-border hover:pl-2 transition-all duration-300">
+            <span class="text-xs font-mono text-accent/40 mt-1 flex-shrink-0 w-8">02</span>
+            <div>
+              <h3 class="font-sans text-lg font-semibold text-text-primary mb-2 group-hover:text-accent transition-colors duration-200">Custom Software &amp; Tools</h3>
+              <p class="text-text-muted leading-relaxed">We create custom software and tools tailored to how your business actually works.</p>
+            </div>
+          </div>
+          <div class="group flex items-start gap-6 py-8 border-b border-border hover:pl-2 transition-all duration-300">
+            <span class="text-xs font-mono text-accent/40 mt-1 flex-shrink-0 w-8">03</span>
+            <div>
+              <h3 class="font-sans text-lg font-semibold text-text-primary mb-2 group-hover:text-accent transition-colors duration-200">UI/UX Design</h3>
+              <p class="text-text-muted leading-relaxed">We design interfaces that feel intuitive from the first click. No learning curve required.</p>
+            </div>
+          </div>
+          <div class="group flex items-start gap-6 py-8 border-b border-border hover:pl-2 transition-all duration-300">
+            <span class="text-xs font-mono text-accent/40 mt-1 flex-shrink-0 w-8">04</span>
+            <div>
+              <h3 class="font-sans text-lg font-semibold text-text-primary mb-2 group-hover:text-accent transition-colors duration-200">Technical Consulting</h3>
+              <p class="text-text-muted leading-relaxed">We help you make smart technical decisions early, so you avoid costly mistakes later.</p>
+            </div>
+          </div>
+          <div class="group flex items-start gap-6 py-8 hover:pl-2 transition-all duration-300">
+            <span class="text-xs font-mono text-accent/40 mt-1 flex-shrink-0 w-8">05</span>
+            <div>
+              <h3 class="font-sans text-lg font-semibold text-text-primary mb-2 group-hover:text-accent transition-colors duration-200">Remote Delivery</h3>
+              <p class="text-text-muted leading-relaxed">We work remotely with clients worldwide, delivering reliable results without the overhead.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="relative py-32 overflow-hidden">
+  <div class="section-divider mb-32"></div>
+  <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+    <div class="text-center mb-20">
+      <p class="text-xs font-mono text-accent mb-4 tracking-widest uppercase">Services</p>
+      <h2 class="font-sans text-3xl sm:text-4xl lg:text-5xl font-bold text-text-primary mb-4">
+        Everything you need to bring<br class="hidden sm:block" /> your idea to life.
+      </h2>
+      <p class="text-text-muted text-lg max-w-xl mx-auto">Built to last. Designed to scale.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- Service 1 -->
+      <div class="group relative bg-surface rounded-2xl border border-border p-8 card-hover hover:border-border-hover overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-accent/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+        <div class="relative">
+          <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-accent/10 text-accent mb-6 group-hover:bg-accent group-hover:text-background transition-all duration-200">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 8l3 3-3 3M13 14h4"/></svg>
+          </div>
+          <h3 class="font-sans text-xl font-semibold text-text-primary mb-3">Web Development</h3>
+          <p class="text-text-muted leading-relaxed">Clean, fast, reliable websites built with modern tools and timeless structure. Designed to perform smoothly today and stay easy to maintain as you grow.</p>
+        </div>
+      </div>
+      <!-- Service 2 -->
+      <div class="group relative bg-surface rounded-2xl border border-border p-8 card-hover hover:border-border-hover overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-accent/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+        <div class="relative">
+          <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-accent/10 text-accent mb-6 group-hover:bg-accent group-hover:text-background transition-all duration-200">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <h3 class="font-sans text-xl font-semibold text-text-primary mb-3">Custom Software</h3>
+          <p class="text-text-muted leading-relaxed">If your idea doesn't fit a template, we build it from the ground up. Custom tools, dashboards, and systems designed to simplify life and scale effortlessly into the future.</p>
+        </div>
+      </div>
+      <!-- Service 3 -->
+      <div class="group relative bg-surface rounded-2xl border border-border p-8 card-hover hover:border-border-hover overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-accent/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+        <div class="relative">
+          <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-accent/10 text-accent mb-6 group-hover:bg-accent group-hover:text-background transition-all duration-200">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+          </div>
+          <h3 class="font-sans text-xl font-semibold text-text-primary mb-3">UI/UX Design</h3>
+          <p class="text-text-muted leading-relaxed">Simple, intuitive, and visually consistent interfaces that feel familiar from the first click. Built with clarity and longevity in mind.</p>
+        </div>
+      </div>
+      <!-- Service 4 -->
+      <div class="group relative bg-surface rounded-2xl border border-border p-8 card-hover hover:border-border-hover overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-accent/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+        <div class="relative">
+          <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-accent/10 text-accent mb-6 group-hover:bg-accent group-hover:text-background transition-all duration-200">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          </div>
+          <h3 class="font-sans text-xl font-semibold text-text-primary mb-3">Technical Consulting</h3>
+          <p class="text-text-muted leading-relaxed">From early concepts to system planning, we help you make smart, confident decisions and avoid surprises down the road.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="relative py-32 overflow-hidden">
+  <div class="section-divider mb-32"></div>
+  <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+    <div class="grid lg:grid-cols-12 gap-16 items-center">
+      <!-- Image -->
+      <div class="lg:col-span-5 order-2 lg:order-1">
+        <div class="relative rounded-2xl overflow-hidden border border-border glow-accent">
+          <img src="../../../public/about_illustration.jpg" alt="Team collaborating on software projects" class="w-full h-auto object-cover aspect-square" />
+        </div>
+      </div>
+      <!-- Text -->
+      <div class="lg:col-span-7 order-1 lg:order-2">
+        <p class="text-xs font-mono text-accent mb-4 tracking-widest uppercase">About us</p>
+        <h2 class="font-sans text-3xl sm:text-4xl font-bold text-text-primary mb-8 leading-tight">
+          About Us
+        </h2>
+        <div class="space-y-5 text-text-muted leading-relaxed text-lg">
+          <p>We're a small, focused software team that believes great digital products don't have to be complicated. We work closely with our clients, from early ideas to finished products, keeping things clear, honest, and straightforward throughout.</p>
+          <p>Our approach is simple: understand what you actually need, build it well, and make sure it lasts. No unnecessary complexity, no bloated processes. Just clean, reliable work delivered on time.</p>
+          <p>We're remote-first and work with clients around the world. Whether you're a startup finding your footing or an established business ready to modernise, we're here to help you build something that works today and well into the future.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="py-32">
+  <div class="section-divider mb-32"></div>
+  <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+    <div class="relative rounded-3xl overflow-hidden border border-border">
+      <img src="../../../public/cta-bg.jpg" alt="" class="absolute inset-0 w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-background/70"></div>
+      <div class="relative px-8 sm:px-16 py-24 text-center">
+        <h2 class="font-sans text-3xl sm:text-4xl lg:text-5xl font-bold text-text-primary mb-6 leading-tight">
+          Ready to build something<br class="hidden sm:block" /> amazing?
+        </h2>
+        <p class="text-text-muted text-lg max-w-lg mx-auto mb-10">
+          Let's discuss your project and turn your vision into a powerful digital solution.
+        </p>
+        <a href="#contact" class="inline-flex items-center gap-2 bg-accent text-background rounded-full px-8 py-3.5 font-medium hover:bg-accent-hover transition-colors duration-200">
+          Start a Project
+          <svg viewBox="0 0 16 16" fill="none" class="w-4 h-4"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="relative py-32 overflow-hidden">
+  <div class="section-divider mb-32"></div>
+  <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-16">
+      <div>
+        <p class="text-xs font-mono text-accent mb-4 tracking-widest uppercase">Our work</p>
+        <h2 class="font-sans text-3xl sm:text-4xl lg:text-5xl font-bold text-text-primary">Selected projects</h2>
+      </div>
+      <p class="text-text-muted max-w-sm">A showcase of recent work we're proud of. Each project built with care and precision.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <!-- Project 1 -->
+      <div class="group bg-surface rounded-2xl border border-border overflow-hidden card-hover hover:border-border-hover flex flex-col cursor-pointer">
+        <div class="relative w-full aspect-[4/3] overflow-hidden bg-surface-elevated flex items-center justify-center">
+          <span class="text-text-muted/30 text-xs font-mono">Project Image</span>
+          <div class="absolute inset-0 bg-background/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+            <span class="text-accent text-sm font-medium border border-accent/30 rounded-full px-4 py-2 bg-accent/10">View project →</span>
+          </div>
+        </div>
+        <div class="p-6 flex flex-col flex-1">
+          <span class="inline-block text-accent text-xs font-mono mb-3">Concept</span>
+          <h3 class="font-sans text-lg font-semibold text-text-primary mb-2">Business Dashboard</h3>
+          <p class="text-text-muted text-sm leading-relaxed">A clear, modern view of business performance. No clutter, no confusion.</p>
+        </div>
+      </div>
+      <!-- Project 2 -->
+      <div class="group bg-surface rounded-2xl border border-border overflow-hidden card-hover hover:border-border-hover flex flex-col cursor-pointer">
+        <div class="relative w-full aspect-[4/3] overflow-hidden bg-surface-elevated flex items-center justify-center">
+          <span class="text-text-muted/30 text-xs font-mono">Project Image</span>
+          <div class="absolute inset-0 bg-background/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+            <span class="text-accent text-sm font-medium border border-accent/30 rounded-full px-4 py-2 bg-accent/10">View project →</span>
+          </div>
+        </div>
+        <div class="p-6 flex flex-col flex-1">
+          <span class="inline-block text-accent text-xs font-mono mb-3">Demo</span>
+          <h3 class="font-sans text-lg font-semibold text-text-primary mb-2">Portfolio Website</h3>
+          <p class="text-text-muted text-sm leading-relaxed">A modern, elegant showcase for creators. Built to look good today and stay relevant tomorrow.</p>
+        </div>
+      </div>
+      <!-- Project 3 -->
+      <div class="group bg-surface rounded-2xl border border-border overflow-hidden card-hover hover:border-border-hover flex flex-col cursor-pointer">
+        <div class="relative w-full aspect-[4/3] overflow-hidden bg-surface-elevated flex items-center justify-center">
+          <span class="text-text-muted/30 text-xs font-mono">Project Image</span>
+          <div class="absolute inset-0 bg-background/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+            <span class="text-accent text-sm font-medium border border-accent/30 rounded-full px-4 py-2 bg-accent/10">View project →</span>
+          </div>
+        </div>
+        <div class="p-6 flex flex-col flex-1">
+          <span class="inline-block text-accent text-xs font-mono mb-3">Prototype</span>
+          <h3 class="font-sans text-lg font-semibold text-text-primary mb-2">Workflow Tool</h3>
+          <p class="text-text-muted text-sm leading-relaxed">A streamlined app designed to simplify tasks and support teams for the long haul.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="relative py-32 overflow-hidden">
+  <div class="section-divider mb-32"></div>
+  <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+    <div class="grid lg:grid-cols-2 gap-16 items-start">
+      <!-- Left -->
+      <div>
+        <p class="text-xs font-mono text-accent mb-4 tracking-widest uppercase">Contact</p>
+        <h2 class="font-sans text-3xl sm:text-4xl lg:text-5xl font-bold text-text-primary mb-6 leading-tight">
+          Let's work together.
+        </h2>
+        <p class="text-text-muted text-lg leading-relaxed mb-12">
+          Prefer a direct conversation? Reach out through any of the channels below. We're always happy to chat about your ideas.
+        </p>
+        <div class="flex flex-col gap-6 mb-10">
+          <div class="flex items-center gap-4 group">
+            <span class="flex-shrink-0 w-10 h-10 rounded-xl bg-surface border border-border text-text-muted flex items-center justify-center group-hover:border-accent/40 group-hover:text-accent transition-all duration-200">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+            </span>
+            <div>
+              <p class="text-xs font-mono text-text-muted/50 tracking-widest uppercase">Email</p>
+              <p class="text-text-primary font-medium">eternitysoftwaresolutions.16@gmail.com</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-4 group">
+            <span class="flex-shrink-0 w-10 h-10 rounded-xl bg-surface border border-border text-text-muted flex items-center justify-center group-hover:border-accent/40 group-hover:text-accent transition-all duration-200">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            </span>
+            <div>
+              <p class="text-xs font-mono text-text-muted/50 tracking-widest uppercase">Location</p>
+              <p class="text-text-primary font-medium">Cape Town, South Africa</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-4 group">
+            <span class="flex-shrink-0 w-10 h-10 rounded-xl bg-surface border border-border text-text-muted flex items-center justify-center group-hover:border-accent/40 group-hover:text-accent transition-all duration-200">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </span>
+            <div>
+              <p class="text-xs font-mono text-text-muted/50 tracking-widest uppercase">Response time</p>
+              <p class="text-text-primary font-medium">Within 24 hours</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-4 group">
+            <span class="flex-shrink-0 w-10 h-10 rounded-xl bg-surface border border-border text-text-muted flex items-center justify-center group-hover:border-accent/40 group-hover:text-accent transition-all duration-200">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            </span>
+            <div>
+              <p class="text-xs font-mono text-text-muted/50 tracking-widest uppercase">Phone / WhatsApp</p>
+              <p class="text-text-primary font-medium">+27 82 523 5838</p>
+            </div>
+          </div>
+        </div>
+        <!-- WhatsApp button -->
+        <a href="https://wa.me/27825235838" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-4 bg-[#25D366]/10 border border-[#25D366]/20 rounded-xl px-5 py-4 hover:bg-[#25D366]/15 hover:border-[#25D366]/40 transition-all duration-200 group">
+          <span class="w-10 h-10 rounded-lg bg-[#25D366] flex items-center justify-center">
+            <svg viewBox="0 0 24 24" fill="white" class="w-5 h-5"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.528 5.855L.057 23.882a.5.5 0 00.61.61l6.086-1.461A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.667-.502-5.2-1.378l-.374-.217-3.876.931.96-3.808-.237-.389A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          </span>
+          <div>
+            <p class="font-medium text-text-primary group-hover:text-[#25D366] transition-colors duration-200">Chat on WhatsApp</p>
+            <p class="text-xs text-text-muted">Quick replies guaranteed</p>
+          </div>
+        </a>
+      </div>
+
+      <!-- Right - Form -->
+      <div class="bg-surface rounded-2xl border border-border p-8 sm:p-10">
+        <form class="flex flex-col gap-6">
+          <div class="flex flex-col gap-2">
+            <label class="text-sm font-medium text-text-muted">Name <span class="text-accent">*</span></label>
+            <input type="text" placeholder="Your name" class="input-dark rounded-xl px-4 py-3 text-text-primary placeholder:text-text-muted/40 font-sans" />
+          </div>
+          <div class="flex flex-col gap-2">
+            <label class="text-sm font-medium text-text-muted">Email <span class="text-accent">*</span></label>
+            <input type="email" placeholder="you@example.com" class="input-dark rounded-xl px-4 py-3 text-text-primary placeholder:text-text-muted/40 font-sans" />
+          </div>
+          <div class="flex flex-col gap-2">
+            <label class="text-sm font-medium text-text-muted">Phone <span class="text-text-muted/50 font-normal">(optional)</span></label>
+            <input type="tel" placeholder="+27 82 123 4567" class="input-dark rounded-xl px-4 py-3 text-text-primary placeholder:text-text-muted/40 font-sans" />
+          </div>
+          <div class="flex flex-col gap-2">
+            <label class="text-sm font-medium text-text-muted">Message <span class="text-accent">*</span></label>
+            <textarea rows="5" placeholder="Tell us about your project…" class="input-dark rounded-xl px-4 py-3 text-text-primary placeholder:text-text-muted/40 resize-none font-sans"></textarea>
+          </div>
+          <button type="button" class="self-start bg-accent text-background rounded-full px-8 py-3 font-medium hover:bg-accent-hover transition-colors duration-200">
+            Send message
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="relative border-t border-border">
+  <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <img src="../../../public/new_logo.png" alt="Eternity Software Solutions logo" class="w-7 h-7 rounded-md" />
+          <span class="font-sans font-medium text-text-primary text-sm">Eternity Software Solutions</span>
+        </div>
+        <p class="text-sm text-text-muted leading-relaxed">Remote-first, available globally. Building digital products that last.</p>
+      </div>
+      <div>
+        <h3 class="text-xs font-mono text-text-muted/50 uppercase tracking-widest mb-5">Navigation</h3>
+        <ul class="flex flex-col gap-3">
+          <li><a href="#about" class="text-sm text-text-muted hover:text-text-primary transition-colors duration-200">About</a></li>
+          <li><a href="#services" class="text-sm text-text-muted hover:text-text-primary transition-colors duration-200">Services</a></li>
+          <li><a href="#projects" class="text-sm text-text-muted hover:text-text-primary transition-colors duration-200">Projects</a></li>
+          <li><a href="#contact" class="text-sm text-text-muted hover:text-text-primary transition-colors duration-200">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-xs font-mono text-text-muted/50 uppercase tracking-widest mb-5">Services</h3>
+        <ul class="flex flex-col gap-3">
+          <li class="text-sm text-text-muted">Web Development</li>
+          <li class="text-sm text-text-muted">Custom Software</li>
+          <li class="text-sm text-text-muted">UI/UX Design</li>
+          <li class="text-sm text-text-muted">Technical Consulting</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-xs font-mono text-text-muted/50 uppercase tracking-widest mb-5">Get in Touch</h3>
+        <ul class="flex flex-col gap-3">
+          <li class="flex items-center gap-3 text-sm text-text-muted">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 flex-shrink-0 text-accent/40"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+            eternitysoftwaresolutions.16@gmail.com
+          </li>
+          <li class="flex items-center gap-3 text-sm text-text-muted">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 flex-shrink-0 text-accent/40"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            +27 82 523 5838
+          </li>
+          <li class="flex items-center gap-3 text-sm text-text-muted">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 flex-shrink-0 text-accent/40"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Cape Town, South Africa
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="border-t border-border">
+    <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-xs text-text-muted/40">&copy; 2026 Eternity Software Solutions. All rights reserved.</p>
+      <div class="flex gap-6">
+        <a href="#" class="text-xs text-text-muted/40 hover:text-text-muted transition-colors duration-200">Privacy Policy</a>
+        <a href="#" class="text-xs text-text-muted/40 hover:text-text-muted transition-colors duration-200">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Nav scroll effect + Mouse glow -->
+<script>
+  // Nav scroll
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('nav');
+    if (window.scrollY > 50) {
+      nav.style.background = 'rgba(15,15,15,0.85)';
+      nav.style.backdropFilter = 'blur(20px)';
+      nav.style.borderBottom = '1px solid rgba(255,255,255,0.06)';
+    } else {
+      nav.style.background = 'transparent';
+      nav.style.backdropFilter = 'none';
+      nav.style.borderBottom = 'none';
+    }
+  });
+
+  // Active nav link on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const top = section.offsetTop - 200;
+      if (window.scrollY >= top) {
+        current = section.getAttribute('id');
+      }
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('nav-link-active');
+      if (link.dataset.section === current) {
+        link.classList.add('nav-link-active');
+      }
+    });
+  });
+
+  // Particle canvas
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  function resizeCanvas() {
+    const hero = canvas.parentElement;
+    canvas.width = hero.offsetWidth;
+    canvas.height = hero.offsetHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  for (let i = 0; i < 60; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.5 + 0.5,
+      dx: (Math.random() - 0.5) * 0.3,
+      dy: (Math.random() - 0.5) * 0.3,
+      opacity: Math.random() * 0.4 + 0.1,
+    });
+  }
+
+  function drawParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(125, 211, 252, ' + p.opacity + ')';
+      ctx.fill();
+      p.x += p.dx;
+      p.y += p.dy;
+      if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+    });
+    requestAnimationFrame(drawParticles);
+  }
+  drawParticles();
+</script>
+</body>
+</html>

@@ -5,79 +5,92 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 const navLinks = [
-  { label: 'Home', href: '#hero' },
-  { label: 'Services', href: '#services' },
-  { label: 'About', href: '#about' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Home', href: '#hero', section: 'hero' },
+  { label: 'What We Do', href: '#what-we-do', section: 'what-we-do' },
+  { label: 'Services', href: '#services', section: 'services' },
+  { label: 'About', href: '#about', section: 'about' },
+  { label: 'Projects', href: '#projects', section: 'projects' },
+  { label: 'Contact', href: '#contact', section: 'contact' },
 ];
 
 export function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const [activeSection, setActiveSection] = useState('hero');
 
   useEffect(() => {
     const onScroll = () => {
-      const y = window.scrollY;
-      setScrolled(y > 20);
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      setProgress(docHeight > 0 ? (y / docHeight) * 100 : 0);
+      setScrolled(window.scrollY > 50);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined') return;
+
+    const sections = navLinks
+      .map(({ section }) => document.getElementById(section))
+      .filter(Boolean) as HTMLElement[];
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        }
+      },
+      { rootMargin: '-50% 0px -50% 0px', threshold: 0 }
+    );
+
+    for (const section of sections) {
+      observer.observe(section);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <nav
-      className={`sticky top-0 z-50 border-b transition-all duration-300 backdrop-blur-md ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? 'bg-surface-dark/40 border-white/5'
-          : 'bg-surface-dark border-white/10 shadow-lg shadow-black/20'
+          ? 'bg-background/85 backdrop-blur-xl border-b border-border'
+          : 'bg-transparent'
       }`}
       aria-label="Main navigation"
     >
-      {/* Scroll progress bar */}
-      <div className="absolute bottom-0 left-0 h-[2px] bg-accent transition-all duration-100 ease-out" style={{ width: `${progress}%` }} aria-hidden="true" />
-
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">        <div className="flex items-center justify-between h-16">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="#hero" aria-label="Eternity Software Solutions home" className="flex items-center gap-3">
             <Image
-              src="/logo_fav.png"
+              src="/new_logo.png"
               alt="Eternity Software Solutions logo"
-              width={36}
-              height={36}
+              width={32}
+              height={32}
+              className="rounded-lg"
               priority
             />
-            <span className="font-sans font-bold text-white text-sm sm:text-base leading-tight">
+            <span className="font-sans font-medium text-text-primary text-sm tracking-tight">
               Eternity Software Solutions
             </span>
           </Link>
 
           {/* Desktop links */}
-          <ul className="hidden md:flex items-center gap-6" role="list">
-            {navLinks.map(({ label, href }) => (
+          <ul className="hidden md:flex items-center gap-8" role="list">
+            {navLinks.map(({ label, href, section }) => (
               <li key={href}>
                 <a
                   href={href}
-                  className="relative text-white/70 hover:text-white transition-colors duration-200 text-sm font-medium group"
+                  data-section={section}
+                  className={`text-sm transition-colors duration-200 link-underline ${
+                    activeSection === section
+                      ? 'nav-link-active text-accent'
+                      : 'text-text-muted hover:text-text-primary'
+                  }`}
                 >
                   {label}
-                  <svg
-                    viewBox="0 0 60 8"
-                    className="absolute -bottom-2 left-0 w-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-accent"
-                    preserveAspectRatio="none"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M0,6 Q30,1 60,6"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      fill="none"
-                      strokeLinecap="round"
-                    />
-                  </svg>
                 </a>
               </li>
             ))}
@@ -87,12 +100,12 @@ export function Nav() {
           <div className="flex items-center gap-3">
             <a
               href="#contact"
-              className="hidden md:inline-flex bg-accent text-white rounded-full px-5 py-2 text-sm font-medium opacity-75 hover:opacity-100 transition-all duration-200"
+              className="hidden md:inline-flex items-center gap-2 bg-accent text-background rounded-full px-6 py-2.5 text-sm font-medium hover:bg-accent-hover transition-colors duration-200"
             >
-              Start a project
+              Let&apos;s talk
             </a>
             <button
-              className="md:hidden p-2 rounded-lg bg-accent text-white hover:opacity-90 transition-all duration-200 shadow-sm"
+              className="md:hidden p-2 rounded-lg text-text-primary hover:text-accent transition-colors duration-200"
               onClick={() => setMenuOpen((prev) => !prev)}
               aria-label={menuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={menuOpen}
@@ -100,12 +113,12 @@ export function Nav() {
             >
               <span className="sr-only">{menuOpen ? 'Close menu' : 'Open menu'}</span>
               {menuOpen ? (
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fillRule="evenodd" clipRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" />
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M18 6L6 18M6 6l12 12" />
                 </svg>
               ) : (
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fillRule="evenodd" clipRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" />
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M3 12h18M3 6h18M3 18h18" />
                 </svg>
               )}
             </button>
@@ -115,12 +128,18 @@ export function Nav() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div id="mobile-menu" className="md:hidden border-t border-white/10 bg-surface-dark">          <ul className="flex flex-col px-4 py-3 gap-1" role="list">
-            {navLinks.map(({ label, href }) => (
+        <div id="mobile-menu" className="md:hidden border-t border-border bg-background/95 backdrop-blur-xl">
+          <ul className="flex flex-col px-6 py-4 gap-1" role="list">
+            {navLinks.map(({ label, href, section }) => (
               <li key={href}>
                 <a
                   href={href}
-                  className="block py-2 text-white/70 hover:text-white transition-colors duration-200 text-sm font-medium"
+                  data-section={section}
+                  className={`block py-3 text-sm font-medium transition-colors duration-200 ${
+                    activeSection === section
+                      ? 'text-accent'
+                      : 'text-text-muted hover:text-text-primary'
+                  }`}
                   onClick={() => setMenuOpen(false)}
                 >
                   {label}
@@ -130,10 +149,10 @@ export function Nav() {
             <li>
               <a
                 href="#contact"
-                className="block mt-2 bg-accent text-white rounded-full px-5 py-2 text-sm font-medium text-center opacity-75 hover:opacity-100 transition-all duration-200"
+                className="block mt-3 bg-accent text-background rounded-full px-6 py-2.5 text-sm font-medium text-center hover:bg-accent-hover transition-colors duration-200"
                 onClick={() => setMenuOpen(false)}
               >
-                Start a project
+                Let&apos;s talk
               </a>
             </li>
           </ul>
