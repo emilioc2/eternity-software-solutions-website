@@ -25,7 +25,7 @@ export function AboutSection() {
               About us
             </p>
             <h2 className="font-sans text-3xl sm:text-4xl font-bold text-text-primary mb-8 leading-tight">
-              About Us
+              Our Approach
             </h2>
             <div className="space-y-5 text-text-muted leading-relaxed text-lg">
               <p>

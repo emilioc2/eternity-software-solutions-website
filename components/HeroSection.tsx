@@ -39,13 +39,13 @@ export function HeroSection() {
           loop
           playsInline
           className="absolute inset-0 w-full h-full object-cover opacity-40"
-          poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Crect fill='%230f0f0f' width='1920' height='1080'/%3E%3C/svg%3E"
+          poster="/hero-illustration.jpg"
         >
           <source src="/hero-bg.mp4" type="video/mp4" />
         </video>
         {/* Gradient overlays to blend video into background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/60 to-background pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-transparent to-background/80 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/20 to-background/70 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/30 via-transparent to-background/30 pointer-events-none" />
       </div>
 
       {/* Main content */}

@@ -14,16 +14,16 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
     <section id="projects" className="relative py-32 overflow-hidden">
       <div className="section-divider mb-32" />
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 animate-on-scroll">
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-16">
+        <div className="mb-16">
           <div>
             <p className="text-xs font-mono text-accent mb-4 tracking-widest uppercase">Our work</p>
-            <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-bold text-text-primary">
+            <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-bold text-text-primary mb-4">
               Selected projects
             </h2>
+            <p className="text-text-muted max-w-sm">
+              A showcase of recent work we&apos;re proud of. Each project built with care and precision.
+            </p>
           </div>
-          <p className="text-text-muted max-w-sm">
-            A showcase of recent work we&apos;re proud of. Each project built with care and precision.
-          </p>
         </div>
         <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 stagger-children">
           {projects.map((project) => {
