@@ -52,7 +52,7 @@ export function HeroSection() {
       <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-32 pb-20 w-full">
         <div className="flex flex-col items-center text-center max-w-5xl mx-auto">
           {/* Headline */}
-          <h1 className="font-sans text-3xl sm:text-4xl lg:text-[3.5rem] font-bold text-text-primary leading-[1.05] tracking-tight mb-8">
+          <h1 className="font-sans text-4xl sm:text-5xl lg:text-[4.5rem] font-bold text-text-primary leading-[1.05] tracking-tight mb-8">
             <span className="text-shimmer">You dream it.</span>{' '}
             We build it. No tech headaches, no mystery buttons.
           </h1>

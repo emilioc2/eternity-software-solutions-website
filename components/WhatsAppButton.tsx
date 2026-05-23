@@ -4,7 +4,7 @@ interface WhatsAppButtonProps {
 
 export function WhatsAppButton({ phoneNumber }: WhatsAppButtonProps) {
   const cleaned = phoneNumber.replace(/\D/g, '');
-  const href = `https://wa.me/${cleaned}`;
+  const href = `https://api.whatsapp.com/send?phone=${cleaned}`;
 
   return (
     <a
