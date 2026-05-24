@@ -12,7 +12,7 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col justify-center overflow-hidden"
+      className="relative min-h-[100dvh] flex flex-col justify-center overflow-hidden"
     >
       {/* Floating orbs */}
       <div
