@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { ParticleCanvas } from './ParticleCanvas';
 
 const TRUST_BADGES = [
@@ -9,6 +11,22 @@ const TRUST_BADGES = [
 ];
 
 export function HeroSection() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoPlaying, setVideoPlaying] = useState(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Attempt autoplay — if it works, show the video; otherwise keep the static image
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => setVideoPlaying(true))
+        .catch(() => setVideoPlaying(false));
+    }
+  }, []);
+
   return (
     <section
       id="hero"
@@ -31,22 +49,30 @@ export function HeroSection() {
       {/* Particle canvas */}
       <ParticleCanvas />
 
-      {/* Background video */}
+      {/* Background video/image */}
       <div className="absolute inset-0 z-0" aria-hidden="true">
+        {/* Static fallback image — always present */}
+        <Image
+          src="/hero-illustration.jpg"
+          alt=""
+          fill
+          className={`object-cover opacity-40 transition-opacity duration-500 ${videoPlaying ? 'opacity-0' : 'opacity-40'}`}
+          priority
+        />
+        {/* Video — hidden until autoplay succeeds */}
         <video
-          autoPlay
+          ref={videoRef}
           muted
           loop
           playsInline
-          controls={false}
-          className="absolute inset-0 w-full h-full object-cover opacity-40 [&::-webkit-media-controls]:hidden [&::-webkit-media-controls-start-playback-button]:hidden"
-          poster="/hero-illustration.jpg"
+          preload="auto"
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${videoPlaying ? 'opacity-40' : 'opacity-0'}`}
         >
           <source src="/hero-bg.mp4" type="video/mp4" />
         </video>
-        {/* Gradient overlays to blend video into background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/40 to-background/90 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/50 via-transparent to-background/50 pointer-events-none" />
+        {/* Gradient overlays to blend into background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/30 to-background/80 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/40 via-transparent to-background/40 pointer-events-none" />
       </div>
 
       {/* Main content */}

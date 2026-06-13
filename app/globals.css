@@ -57,12 +57,20 @@ html {
 
 /* Input dark — dark background with accent focus ring (Req 10.1, 10.2) */
 .input-dark {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 12px 16px;
+  color: #ffffff;
+  font-size: 15px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.input-dark::placeholder {
+  color: rgba(255, 255, 255, 0.3);
 }
 .input-dark:focus {
   outline: none;
+  background: rgba(255, 255, 255, 0.06);
   border-color: rgba(125, 211, 252, 0.5);
   box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.08);
 }

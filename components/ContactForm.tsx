@@ -83,60 +83,67 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
+    <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-6">
+      <div className="mb-2">
+        <h3 className="text-xl font-semibold text-text-primary mb-1">Send us a message</h3>
+        <p className="text-sm text-text-muted">We&apos;ll get back to you within 24 hours.</p>
+      </div>
+
       {status === 'error' && (
         <div role="alert" className="bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl px-4 py-3 text-sm">
           Something went wrong. Please try again.
         </div>
       )}
 
-      <div className="flex flex-col gap-1">
-        <label htmlFor="cf-name" className="text-sm font-medium text-text-muted">
-          Name <span aria-hidden="true">*</span>
-        </label>
-        <input
-          id="cf-name"
-          name="name"
-          type="text"
-          required
-          aria-required="true"
-          aria-describedby={errors.name ? 'cf-name-error' : undefined}
-          value={fields.name}
-          onChange={(e) => setFields((f) => ({ ...f, name: e.target.value }))}
-          className="input-dark"
-          placeholder="Your name"
-        />
-        {errors.name && (
-          <span id="cf-name-error" role="alert" className="text-red-400 text-xs mt-0.5">
-            {errors.name}
-          </span>
-        )}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="cf-name" className="text-sm font-medium text-text-muted">
+            Name <span aria-hidden="true">*</span>
+          </label>
+          <input
+            id="cf-name"
+            name="name"
+            type="text"
+            required
+            aria-required="true"
+            aria-describedby={errors.name ? 'cf-name-error' : undefined}
+            value={fields.name}
+            onChange={(e) => setFields((f) => ({ ...f, name: e.target.value }))}
+            className="input-dark"
+            placeholder="Your name"
+          />
+          {errors.name && (
+            <span id="cf-name-error" role="alert" className="text-red-400 text-xs mt-0.5">
+              {errors.name}
+            </span>
+          )}
+        </div>
+
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="cf-email" className="text-sm font-medium text-text-muted">
+            Email <span aria-hidden="true">*</span>
+          </label>
+          <input
+            id="cf-email"
+            name="email"
+            type="email"
+            required
+            aria-required="true"
+            aria-describedby={errors.email ? 'cf-email-error' : undefined}
+            value={fields.email}
+            onChange={(e) => setFields((f) => ({ ...f, email: e.target.value }))}
+            className="input-dark"
+            placeholder="you@example.com"
+          />
+          {errors.email && (
+            <span id="cf-email-error" role="alert" className="text-red-400 text-xs mt-0.5">
+              {errors.email}
+            </span>
+          )}
+        </div>
       </div>
 
-      <div className="flex flex-col gap-1">
-        <label htmlFor="cf-email" className="text-sm font-medium text-text-muted">
-          Email <span aria-hidden="true">*</span>
-        </label>
-        <input
-          id="cf-email"
-          name="email"
-          type="email"
-          required
-          aria-required="true"
-          aria-describedby={errors.email ? 'cf-email-error' : undefined}
-          value={fields.email}
-          onChange={(e) => setFields((f) => ({ ...f, email: e.target.value }))}
-          className="input-dark"
-          placeholder="you@example.com"
-        />
-        {errors.email && (
-          <span id="cf-email-error" role="alert" className="text-red-400 text-xs mt-0.5">
-            {errors.email}
-          </span>
-        )}
-      </div>
-
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1.5">
         <label htmlFor="cf-phone" className="text-sm font-medium text-text-muted">
           Phone <span className="text-text-muted/60 font-normal">(optional)</span>
         </label>
@@ -151,7 +158,7 @@ export function ContactForm() {
         />
       </div>
 
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1.5">
         <label htmlFor="cf-message" className="text-sm font-medium text-text-muted">
           Message <span aria-hidden="true">*</span>
         </label>
@@ -177,7 +184,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={submitting}
-        className="self-start bg-accent text-background rounded-full px-6 py-2.5 font-medium hover:bg-accent-hover transition-colors duration-200 disabled:opacity-60"
+        className="w-full bg-accent text-background rounded-full px-6 py-3 font-medium hover:bg-accent-hover transition-colors duration-200 disabled:opacity-60"
       >
         {submitting ? 'Sending…' : 'Send message'}
       </button>
