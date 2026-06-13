@@ -38,7 +38,8 @@ export function HeroSection() {
           muted
           loop
           playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-40"
+          controls={false}
+          className="absolute inset-0 w-full h-full object-cover opacity-40 [&::-webkit-media-controls]:hidden [&::-webkit-media-controls-start-playback-button]:hidden"
           poster="/hero-illustration.jpg"
         >
           <source src="/hero-bg.mp4" type="video/mp4" />
